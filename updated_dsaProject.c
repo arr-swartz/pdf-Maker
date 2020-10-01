@@ -5,7 +5,7 @@
 
 int y=0;
 
-struct node
+typedef struct node
 {
     FILE *fp;
     struct node *prev;
@@ -21,8 +21,6 @@ void add(FILE *g,char file[20])
     g=fopen(file,"a");
     printf("enter content of your file\n");
     printf("enter tab at the termination of file\n");
-    //scanf("%[^\t]s", para);
-    //fprintf(file,"%s",para);
     while((c=_getch())!='#')
     {
         if(c!='\n'){
@@ -45,7 +43,7 @@ void insertion()
     char heading[40];
     char c;
     char filename[20];
-    struct node *t=(struct node*)malloc(sizeof(struct node));
+    struct node *t=(node*)malloc(sizeof(node));
     sprintf(filename,"results%d.txt",y);
     y++;
     t->fp=fopen(filename,"w");
@@ -259,6 +257,37 @@ void display()
     }
 }
 
+
+void display_back()
+{
+    char c;
+    char filename[20];
+    int y=0;
+    struct node *p=first;
+    if(p==NULL)
+    {
+        printf("--------------------------------\n");
+        printf("list is empty\n");
+        printf("--------------------------------\n");
+    }
+    else{
+    while(p!=NULL)
+    {
+        sprintf(filename,"results%d.txt",y);
+        y++;
+        p->fp=fopen(filename,"r");
+        while((c=fgetc(p->fp))!=EOF)
+        {
+            putch(c);
+        }
+        printf("\n\n\n");
+        fclose(p->fp);
+        p=p->prev;
+    }
+    printf("\n");
+    }
+}
+
 void searching()
 {
     int ch,po,i;
@@ -302,7 +331,7 @@ int main()
     while(ch!=5)
     {
         printf("-------------------MENU-------------------------\n");
-        printf("enter 1 for insert\nenter 2 for deletion\nenter 3 for searching\nenter 4 for display\nenter 5 for exit\n");
+        printf("enter 1 for insert\nenter 2 for deletion\nenter 3 for searching\nenter 4 for display forward\nenter 5 for display backward\nenter 6 for exit\n");
         printf("------------------------------------------------\n");
         printf("enter your choice:");
         scanf("%d",&ch);
@@ -317,8 +346,10 @@ int main()
                    break;
             case 4:display();
                    break;
-            case 5:break;
-            default:printf("enter valid choice");
+            case 5: display_back();
+                    break;
+            case 6:exit(0);
+            default:printf("enter valid choice: ");
         }
     }
     return 0;
