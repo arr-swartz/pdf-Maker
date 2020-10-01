@@ -263,7 +263,7 @@ void display_back()
     char c;
     char filename[20];
     int y=0;
-    struct node *p=first;
+    struct node *p=last;
     if(p==NULL)
     {
         printf("--------------------------------\n");
